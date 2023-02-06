@@ -1,0 +1,57 @@
+return {
+    settings = {
+        dropItems = false
+    },
+    theme = {
+        colors = {
+            titleTextColor = colors.white,
+            titleBgColor = colors.blue,
+            bgColor = colors.black,
+            catagoryTextColor = colors.black,
+            catagoryBgColor = colors.white,
+            activeCatagoryBgColor = colors.lightGray,
+            logTextColor = colors.white,
+            configEditor = {
+                bgColor = colors.lime,
+                textColor = colors.black,
+                buttonColor = colors.green,
+                buttonTextColor = colors.white,
+                inactiveButtonColor = colors.gray,
+                inactiveButtonTextColor = colors.white,
+                scrollbarBgColor = colors.white,
+                scrollbarColor = colors.lightGray,
+                inputBgColor = colors.white,
+                inputTextColor = colors.black,
+                errorBgColor = colors.red,
+                errorTextColor = colors.white,
+                toggleColor = colors.lightGray,
+                toggleBgColor = colors.gray,
+                toggleOnColor = colors.lime,
+                toggleOffColor = colors.red,
+                unsavedChangesColor = colors.blue,
+                unsavedChangesTextColor = colors.white,
+                modalBgColor = colors.white,
+                modalTextColor = colors.black,
+                modalBorderColor = colors.lightGray,
+            },
+        },
+        palette = {
+            [colors.black] = 0x181818,
+            [colors.blue] = 0x182B52,
+            [colors.purple] = 0x7E2553,
+            [colors.green] = 0x008751,
+            [colors.brown] = 0xAB5136,
+            [colors.gray] = 0x565656,
+            [colors.lightGray] = 0x9D9D9D,
+            [colors.red] = 0xFF004C,
+            [colors.orange] = 0xFFA300,
+            [colors.yellow] = 0xFFEC23,
+            [colors.lime] = 0x00A23C,
+            [colors.cyan] = 0x29ADFF,
+            [colors.magenta] = 0x82769C,
+            [colors.pink] = 0xFF77A9,
+            [colors.lightBlue] = 0x3D7EDB,
+            [colors.white] = 0xECECEC
+        },
+    }
+}

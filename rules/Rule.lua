@@ -1,0 +1,4 @@
+---@class Rule
+---@field fails number
+---@field inventory string
+---@field evaluate fun():boolean
