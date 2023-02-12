@@ -31,7 +31,8 @@ if fs.exists(fs.combine(fs.getDir(shell.getRunningProgram()), "config.lua")) the
     config = require("config")
 end
 
-local version = "0.8.0"
+local version = "0.8.1"
+local refreshFrequency = 120 -- 2 minutes
 local maxBackoff = 5 * 20 -- 5 seconds
 local backoffFactor = 1 -- Each rule failure increases duration before it is ran again by 1 tick
 
@@ -41,7 +42,7 @@ local backoffFactor = 1 -- Each rule failure increases duration before it is ran
 ---@field groupManager GroupManager
 ---@field rules Rule[]
 local Argon = {
-    refreshRate = 5,
+    refreshFrequency = refreshFrequency,
     refreshes = 0,
     version = version,
     frozenSlots = {},
@@ -69,11 +70,11 @@ function Argon:refresh()
     local lastRefresh = 0
     while true do
         local curTime = os.epoch("utc")
-        if (curTime - lastRefresh) >= (self.refreshRate*1000) then
+        if (curTime - lastRefresh) >= (self.refreshFrequency*1000) then
             lastRefresh = curTime
             --print("Refreshing...")
             local start = os.epoch("utc")
-            self.inventoryManager:scanInventories()
+            self.inventoryManager:scanInventories(modem)
             --print("Refreshed in " .. (os.epoch("utc") - start) .. "ms")
             local items = self.inventoryManager:getItemArray()
             local totalCount = 0
@@ -91,7 +92,7 @@ function Argon:refresh()
             --print("Total: " .. totalCount)
             --self.itemManager:withdraw("minecraft:coal", modem.getNameLocal(), 1, 48)
         end
-        sleep(self.refreshRate / 10)
+        sleep(self.refreshFrequency / 10)
     end
 end
 
@@ -144,7 +145,7 @@ function Argon:turtleDeposit()
 end
 
 function Argon:run()
-    print("Argon " .. version .. " starting...")
+    print("Argon " .. version .. " starting...")--[[
     table.insert(self.rules, ImportRule.new(
         "ender_storage_126",
         {
@@ -177,6 +178,23 @@ function Argon:run()
             self.itemManager
         ))
     end
+    local composter = "ender_storage_6091"
+    local compostCounts = {
+        ["minecraft:carrot"] = 30000,
+        ["minecraft:wheat_seeds"] = 20000,
+        ["minecraft:wheat"] = 30000,
+    }
+    for item, count in pairs(compostCounts) do
+        table.insert(self.rules, ExportItemRule.new(
+            composter,
+            item,
+            nil,
+            {
+                MinItemCountCondition.new(self.inventoryManager, item, count),
+            },
+            self.itemManager
+        ))
+    end--]]
     parallel.waitForAny(
         function() self:refresh() end,
         function() self:tasks() end,

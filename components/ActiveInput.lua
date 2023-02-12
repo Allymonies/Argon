@@ -80,6 +80,7 @@ return Solyd.wrapComponent("ActiveInput", function(props)
             end
         end
         inputState.value = inputState.value:sub(1, inputState.cursorPos-1) .. char .. inputState.value:sub(inputState.cursorPos)
+        inputState.prevValue = inputState.value
         inputState.cursorPos = inputState.cursorPos + 1
         inputState.cursorX = props.x + inputState.cursorPos - inputState.viewPort
         if inputState.cursorPos > inputState.viewPort + props.width - 1 then

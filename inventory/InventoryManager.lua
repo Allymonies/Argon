@@ -135,6 +135,9 @@ function InventoryManager:addItem(inventoryName, slot, item, items, itemSources,
     if not itemArray then itemArray = self.itemArray end
 
     local itemDescription = self:getItemDescription(item, inventoryName, slot)
+    if not itemDescription then
+        return
+    end
     local displayName = itemDescription.displayName or item.name
     local itemDetails = nil
     local sourceInfo = {
@@ -362,9 +365,24 @@ function InventoryManager:getMaxCounts()
     return self.maxCounts
 end
 
-function InventoryManager:scanInventories()
+function InventoryManager:scanInventories(modem)
     ensureDirs()
-    local inventories = {peripheral.find("inventory")}
+    local names = modem.getNamesRemote()
+    local inventories = {}
+    for _, name in ipairs(names) do
+        if peripheral.hasType(name, "inventory") then
+            local validInventory = true
+            for _, denyType in pairs(constants.storageDenyList) do
+                if peripheral.hasType(name, denyType) then
+                    validInventory = false
+                    break
+                end
+            end
+            if validInventory then
+                table.insert(inventories, peripheral.wrap(name))
+            end
+        end
+    end
     local scanTasks = {}
     local newItemSources = {}
     local newBasicItemSources = {}

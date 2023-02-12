@@ -87,7 +87,7 @@ function ArgonUI:run()
         scroll = 0,
         maxScroll = 0,
         itemsPerScreen = 0,
-        selectedItem = 0,
+        selectedItem = 1,
         maxSelected = 0,
         category = "inventory",
         lastRefresh = -1,
@@ -129,7 +129,7 @@ function ArgonUI:run()
             state.scroll = 0
             state.searchQuery = nil
             state.searchResults = {}
-            state.selectedItem = 0
+            state.selectedItem = 1
             state.doWithdraw = false
         end
 
@@ -212,7 +212,7 @@ function ArgonUI:run()
                         state.searchQuery = value
                         state.searchResults = {}
                         state.scroll = 0
-                        state.selectedItem = 0
+                        state.selectedItem = 1
                         if value ~= "" then
                             state.searchResults = inventoryManager:search(value)
                         end
